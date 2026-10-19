@@ -11,6 +11,7 @@ for (const k of ['JWT_SECRET', 'GEMINI_API_KEY'])
   if (!process.env[k]) { console.error(`Missing ${k} in .env`); process.exit(1); }
 
 const app = express();
+   app.set('trust proxy', 1);
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
 app.use(express.json({ limit: '100kb' }));
 app.use('/api/auth', rateLimit({ windowMs: 15 * 60 * 1000, max: 50 }), authRouter);
