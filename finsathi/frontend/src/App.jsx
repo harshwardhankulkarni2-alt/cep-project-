@@ -3,12 +3,10 @@ import { LogOut } from 'lucide-react';
 import { api, token } from './api.js';
 import AuthPage from './components/AuthPage.jsx';
 import Dashboard from './components/Dashboard.jsx';
-import AskFinsathi from './components/AskFinsathi.jsx';
 
 export default function App() {
   const [user, setUser] = useState(null);
   const [ready, setReady] = useState(!token.get());
-  const [tab, setTab] = useState('money');
 
   useEffect(() => {
     if (token.get()) api('/auth/me').then((d) => setUser(d.user)).catch(() => {}).finally(() => setReady(true));
@@ -22,14 +20,11 @@ export default function App() {
     <div className="shell">
       <header>
         <h1>Finsathi</h1>
-        <nav>
-          <button className={tab === 'money' ? 'on' : ''} onClick={() => setTab('money')}>My money</button>
-          <button className={tab === 'ask' ? 'on' : ''} onClick={() => setTab('ask')}>Ask Finsathi</button>
-        </nav>
+        <nav />
         <span className="muted who">{user.name}</span>
         <button className="ghost" onClick={logout} aria-label="Log out"><LogOut size={18} /></button>
       </header>
-      <main>{tab === 'money' ? <Dashboard /> : <AskFinsathi />}</main>
+      <main><Dashboard /></main>
     </div>
   );
 }
